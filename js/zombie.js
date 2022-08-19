@@ -5,7 +5,8 @@ const zombie = {
     domObj          :       null,
     spriteSize      :       100,
     numberSprite    :       10,
-    direction       :       1
+    direction       :       1,
+    in_out          :       0
 }
 
 const anim = {
@@ -26,17 +27,20 @@ document.addEventListener("keydown", event => {
         if (event.code == "ArrowDown") zombie.domObj.style.transform += "translateY(10px)";
         if (event.code == "ArrowLeft") zombie.domObj.style.transform += "translateX(-10px)";
         if (event.code == "ArrowRight") zombie.domObj.style.transform += "translateX(10px)";
-        if (event.code == "Space") deadWalking();
-        if (event.code == "AltLeft") walkingDead();
         if (event.code == "KeyR") zombie.domObj.style.transform += "scaleX(-1)", zombie.direction = 0;
     } else if (zombie.direction === 0) {
         if (event.code == "ArrowUp") zombie.domObj.style.transform += "translateY(-10px)";
         if (event.code == "ArrowDown") zombie.domObj.style.transform += "translateY(10px)";
         if (event.code == "ArrowLeft") zombie.domObj.style.transform += "translateX(10px)";
         if (event.code == "ArrowRight") zombie.domObj.style.transform += "translateX(-10px)";
-        if (event.code == "Space") deadWalking();
-        if (event.code == "AltLeft") walkingDead();
         if (event.code == "KeyR") zombie.domObj.style.transform += "scaleX(-1)", zombie.direction = 1;
+    }
+    if (zombie.in_out === 0) {
+        if (event.code == "Space") walkingDead();
+        zombie.in_out = 1;
+    } else if (zombie.in_out === 1) {
+        if (event.code == "Space") deadWalking();
+        zombie.in_out = 0;
     }
 });
 
@@ -61,4 +65,4 @@ const deadWalking = () => {
         cancelAnimationFrame(anim.id);
         zombie.domObj.style.background = null;
     }
-}
+};
